@@ -1,31 +1,44 @@
+// projects/financas/actions.ts
 'use server'
 
-import { createClient } from '@supabase/supabase-js'
-import { auth } from '@/app/auth'
+import { supabase } from '@/lib/supabase'
 import { revalidatePath } from 'next/cache'
 
-const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
-
+/**
+ * Adiciona uma nova transação ao banco de dados
+ */
 export async function addTransaction(formData: FormData) {
-    const session = await auth()
-    if (!session?.user?.email) throw new Error("Não autorizado")
-
     const description = formData.get('description') as string
-    const amount = parseFloat(formData.get('amount') as string)
-    const type = formData.get('type') as 'income' | 'expense'
+    const amount = Number(formData.get('amount'))
+    const type = formData.get('type') as string
+    const user_email = formData.get('user_email') as string
 
-    const { error } = await supabase.from('transactions').insert([
-        {
-            description,
-            amount,
-            type,
-            user_email: session.user.email
-        }
-    ])
+    const { error } = await supabase
+        .from('transactions')
+        .insert([{ description, amount, type, user_email }])
 
-    if (error) console.error(error)
-    revalidatePath('/financas')
+    if (error) {
+        console.error("Erro ao inserir:", error)
+        return { error: "Falha ao salvar transação" }
+    }
+
+    // Atualiza os dados da página sem precisar de refresh manual
+    revalidatePath('/lab/financas')
+}
+
+/**
+ * Remove uma transação existente
+ */
+export async function deleteTransaction(id: string) {
+    const { error } = await supabase
+        .from('transactions')
+        .delete()
+        .eq('id', id)
+
+    if (error) {
+        console.error("Erro ao deletar:", error)
+        throw new Error("Não foi possível excluir a transação.")
+    }
+
+    revalidatePath('/lab/financas')
 }
