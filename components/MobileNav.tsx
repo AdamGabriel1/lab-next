@@ -1,4 +1,3 @@
-// components/MobileNav.tsx
 'use client'
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'

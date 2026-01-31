@@ -1,4 +1,3 @@
-// components/SideBar.tsx
 import Link from 'next/link'
 import { auth } from '@/app/auth'
 import SideLinks from './SideLinks'
