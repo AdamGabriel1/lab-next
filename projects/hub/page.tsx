@@ -73,7 +73,7 @@ export default async function HubPage() {
                         <div className="flex items-center gap-4">
                             <div className="text-right hidden lg:block">
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Build Status</p>
-                                <p className="text-xs font-bold text-emerald-500">v4.2.0 Stable</p>
+                                <p className="text-xs font-bold text-emerald-500">v2.0 Stable</p>
                             </div>
                             <div className="h-16 w-16 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl flex items-center justify-center text-blue-600 shadow-xl">
                                 <Zap size={24} fill="currentColor" />
