@@ -41,7 +41,7 @@ O diferencial técnico do LAB está na sua **Roteação Inteligente**. Utilizamo
 
 ## 🛠 Tech Stack Detalhada
 
-- **Core:** Next.js 15 (App Router) & React 19.
+- **Core:** Next.js 16 (App Router) & React 19.
 - **Data:** Supabase (PostgreSQL) com políticas de RLS (Row Level Security).
 - **Security:** Auth.js v5 (NextAuth) com proteção de rotas via Middleware.
 - **UI/UX:** Tailwind CSS com variáveis CSS para Dark Mode dinâmico.
@@ -57,13 +57,11 @@ Renomeie o arquivo `.env.example` para `.env.local` e configure:
 
 ```env
 # Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL="[https://your-project.supabase.co](https://your-project.supabase.co)"
+NEXT_PUBLIC_SUPABASE_URL="https://your-project.supabase.co"
 NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 
 # Auth.js Configuration
 AUTH_SECRET="your-secret-here" # Gere com: npx auth secret
-AUTH_GITHUB_ID="your-id"
-AUTH_GITHUB_SECRET="your-secret"
 
 ```
 
