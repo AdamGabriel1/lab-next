@@ -6,10 +6,10 @@
 
 ## 🛠 Tech Stack
 
-* **Framework:** [Next.js 15 (App Router)](https://nextjs.org/)
+* **Framework:** [Next.js 16 (App Router)](https://nextjs.org/)
 * **Linguagem:** TypeScript
 * **Estilização:** Tailwind CSS (Dark Mode nativo)
-* **Autenticação:** NextAuth.js (Auth.js v5)
+* **Autenticação:** NextAuth.js (Auth.js v5 Beta)
 * **Banco de Dados:** Supabase (PostgreSQL)
 * **Renderização MDX:** `next-mdx-remote`
 * **Ícones:** Lucide React
