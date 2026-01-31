@@ -10,23 +10,37 @@ export default async function LabRouter({ params }: { params: Promise<{ slug?: s
 
     if (!slug || slug.length === 0) return notFound();
 
-    const modulo = slug[0]; // "encurtador", "projetos", etc.
+    const modulo = slug[0]; // "encurtador", "cms", "financas", etc.
 
-    // --- CASO 1: ENCURTADOR (Com suporte a /admin) ---
+    // --- CASO 1: ENCURTADOR (Home e Admin) ---
     if (modulo === 'encurtador') {
-        // Se a URL for /lab/encurtador/admin (slug.length === 2)
-        // Nota: slug[0] é "encurtador", slug[1] é "admin"
         if (slug.length === 2 && slug[1] === 'admin') {
             const AdminPage = dynamic<ProjetoProps>(() => import('@/projects/encurtador/admin/page'));
             return <AdminPage params={Promise.resolve({ slug })} />;
         }
-
-        // Se for apenas /lab/encurtador
         const EncurtadorHome = dynamic<ProjetoProps>(() => import('@/projects/encurtador/page'));
         return <EncurtadorHome params={Promise.resolve({ slug })} />;
     }
 
-    // --- CASO 2: PROJETOS MDX ---
+    // --- CASO 2: CMS (Blog com Post e Novo) ---
+    if (modulo === 'cms') {
+        // Rota: /lab/cms/novo
+        if (slug.length === 2 && slug[1] === 'novo') {
+            const NovoPost = dynamic<any>(() => import('@/projects/cms/novo/page'));
+            return <NovoPost />;
+        }
+        // Rota: /lab/cms/post/[id] (slug.length === 3)
+        if (slug.length === 3 && slug[1] === 'post') {
+            const PostDetail = dynamic<any>(() => import('@/projects/cms/post/[id]/page'));
+            // Passamos o ID corretamente para o componente
+            return <PostDetail params={Promise.resolve({ id: slug[2] })} />;
+        }
+        // Rota: /lab/cms
+        const CMSHome = dynamic<any>(() => import('@/projects/cms/page'));
+        return <CMSHome />;
+    }
+
+    // --- CASO 3: PROJETOS MDX ---
     if (modulo === 'projetos') {
         if (slug.length === 1) {
             const Lista = dynamic<any>(() => import('@/projects/projetos/page'));
@@ -38,10 +52,10 @@ export default async function LabRouter({ params }: { params: Promise<{ slug?: s
         }
     }
 
-    // --- CASO GERAL: Outros projetos ---
+    // --- CASO GERAL: Outros projetos (Financas, Chat, etc) ---
     const ProjetoComponent = dynamic<any>(
         () => import(`@/projects/${modulo}/page`).catch(() => () => notFound()),
-        { loading: () => <p className="p-10 text-xs font-black uppercase animate-pulse">Iniciando...</p> }
+        { loading: () => <div className="p-20 flex justify-center items-center"><p className="text-[10px] font-black uppercase tracking-[0.4em] animate-pulse">Iniciando Sistema...</p></div> }
     );
 
     return <ProjetoComponent params={Promise.resolve({ slug })} />;

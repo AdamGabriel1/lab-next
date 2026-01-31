@@ -1,6 +1,6 @@
-// components/citacoes/CopyButton.tsx
 'use client'
 import { useState } from 'react'
+import { Copy, Check } from 'lucide-react'
 
 export default function CopyButton({ text }: { text: string }) {
     const [copied, setCopied] = useState(false)
@@ -14,18 +14,12 @@ export default function CopyButton({ text }: { text: string }) {
     return (
         <button
             onClick={handleCopy}
-            className="text-[10px] font-bold text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400 uppercase tracking-widest transition-colors flex items-center gap-2"
+            className="group flex items-center gap-2 text-[10px] font-black text-slate-400 dark:text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 uppercase tracking-[0.2em] transition-all"
         >
-            {copied ? (
-                <span className="text-emerald-500 animate-bounce">✅ Copiado com sucesso!</span>
-            ) : (
-                <>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                    </svg>
-                    Copiar frase
-                </>
-            )}
+            <div className={`p-2 rounded-lg transition-colors ${copied ? 'bg-emerald-500/10 text-emerald-500' : 'bg-slate-100 dark:bg-slate-800 group-hover:bg-blue-500/10'}`}>
+                {copied ? <Check size={14} /> : <Copy size={14} />}
+            </div>
+            <span>{copied ? 'Copiado!' : 'Copiar'}</span>
         </button>
     )
 }

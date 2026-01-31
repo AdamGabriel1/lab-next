@@ -1,0 +1,28 @@
+---
+title: "Real-time State com Supabase"
+description: "Como implementei o sistema de presença e mensagens instantâneas utilizando Realtime Channels do Supabase."
+tags: ["Backend", "Realtime", "DB"]
+---
+
+# A Arquitetura do Lab.Chat
+
+Neste projeto, o desafio era garantir que a lista de usuários online fosse atualizada sem refresh e com baixa latência.
+
+## O Uso de Presença (Presence)
+
+Utilizei a funcionalidade de `Presence` do Supabase para monitorar o estado dos usuários:
+
+```typescript
+const channel = supabase.channel('room_01')
+channel
+  .on('presence', { event: 'sync' }, () => {
+    const newState = channel.presenceState()
+    console.log('Usuários online:', newState)
+  })
+  .subscribe()
+
+```
+
+## Conclusão
+
+A integração via **Websockets** permitiu que o Lab.Chat se tornasse uma ferramenta de comunicação fluida dentro do ecossistema.

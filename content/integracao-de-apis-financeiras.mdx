@@ -1,0 +1,24 @@
+---
+title: "Consumo de Dados de Mercado"
+description: "Desafios técnicos na integração com a API da CoinGecko e tratamento de dados voláteis."
+tags: ["API", "Crypto", "Finance"]
+---
+
+# Market Data Pipeline
+
+Para o módulo **Crypto.Hub**, a precisão dos decimais é crítica. 
+
+### Tratamento de Números
+Utilizei a `Intl.NumberFormat` para garantir que moedas com valores baixos (como SHIB) não fossem arredondadas incorretamente:
+
+```javascript
+new Intl.NumberFormat('en-US', { 
+  minimumFractionDigits: 2, 
+  maximumFractionDigits: 6 
+}).format(price);
+
+```
+
+### Cache e Revalidação
+
+Implementei o `revalidate: 60` no fetch para balancear a frescura dos dados com os limites de rate-limit da API pública.

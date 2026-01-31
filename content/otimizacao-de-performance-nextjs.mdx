@@ -1,0 +1,19 @@
+---
+title: "Otimizando Rotas Dinâmicas"
+description: "Como o LabRouter lida com múltiplas aplicações sob o mesmo guarda-chuva de slugs dinâmicos no Next.js."
+tags: ["Next.js", "Performance", "Architecture"]
+---
+
+# Escalabilidade com [[...slug]]
+
+O uso de `catch-all routes` permitiu que o Lab crescesse organicamente. 
+
+### Estratégia de Loading
+Utilizamos o `dynamic` do Next.js para carregar apenas o código necessário para cada módulo:
+
+```tsx
+const ProjetoComponent = dynamic(() => import(`@/projects/${modulo}/page`));
+
+```
+
+Isso garante que o bundle do **Crypto Market** não seja carregado quando o usuário está apenas lendo as **Citações**.

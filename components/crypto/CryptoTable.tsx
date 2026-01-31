@@ -1,6 +1,6 @@
-// components/crypto/CryptoTable.tsx
 'use client'
 import { useState } from 'react';
+import { Search, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 
 export default function CryptoTable({ initialData }: { initialData: any[] }) {
     const [search, setSearch] = useState('');
@@ -11,61 +11,90 @@ export default function CryptoTable({ initialData }: { initialData: any[] }) {
     );
 
     return (
-        <div className="space-y-6">
-            <div className="relative group">
+        <div className="space-y-8">
+            {/* Barra de Busca Estilizada */}
+            <div className="relative group max-w-md">
+                <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-blue-500 transition-colors">
+                    <Search size={18} />
+                </div>
                 <input
                     type="text"
-                    placeholder="Pesquisar moeda (ex: Bitcoin)..."
-                    className="w-full p-4 pl-12 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-blue-500/30 transition-all shadow-sm"
+                    placeholder="Filtrar por nome ou símbolo..."
+                    className="w-full p-5 pl-14 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-white outline-none focus:border-blue-500/50 transition-all shadow-sm font-medium"
                     onChange={(e) => setSearch(e.target.value)}
                 />
-                <svg className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
             </div>
 
-            <div className="overflow-x-auto rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 transition-colors">
-                <table className="w-full text-left">
-                    <thead className="bg-slate-50 dark:bg-slate-950/50 border-b border-slate-200 dark:border-slate-800">
-                        <tr>
-                            <th className="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Moeda</th>
-                            <th className="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500">Preço</th>
-                            <th className="p-5 text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 text-right">24h (%)</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-                        {filteredCoins.map((coin) => (
-                            <tr key={coin.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
-                                <td className="p-5 flex items-center gap-4">
-                                    <div className="p-2 bg-slate-100 dark:bg-slate-800 rounded-xl group-hover:scale-110 transition-transform">
-                                        <img src={coin.image} alt={coin.name} className="w-6 h-6" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        <span className="font-bold text-slate-900 dark:text-slate-100">{coin.name}</span>
-                                        <span className="text-slate-400 uppercase text-[10px] font-black tracking-tighter">{coin.symbol}</span>
-                                    </div>
-                                </td>
-                                <td className="p-5">
-                                    <span className="font-mono font-bold text-slate-700 dark:text-slate-300">
-                                        ${coin.current_price.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                                    </span>
-                                </td>
-                                <td className={`p-5 text-right font-black text-sm`}>
-                                    <span className={`px-3 py-1 rounded-full ${coin.price_change_percentage_24h > 0
-                                            ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                                            : 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
-                                        }`}>
-                                        {coin.price_change_percentage_24h > 0 ? '+' : ''}{coin.price_change_percentage_24h?.toFixed(2)}%
-                                    </span>
-                                </td>
+            {/* Container da Tabela */}
+            <div className="overflow-hidden rounded-[2.5rem] border border-slate-200 dark:border-slate-800 shadow-2xl bg-white dark:bg-slate-900 transition-all">
+                <div className="overflow-x-auto">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="bg-slate-50/50 dark:bg-slate-950/50 border-b border-slate-100 dark:border-slate-800">
+                                <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400"># Rank</th>
+                                <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Ativo</th>
+                                <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400">Preço Atual</th>
+                                <th className="p-6 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Variação 24h</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                            {filteredCoins.map((coin) => {
+                                const isPositive = coin.price_change_percentage_24h > 0;
+                                return (
+                                    <tr key={coin.id} className="hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors group">
+                                        <td className="p-6">
+                                            <span className="font-mono text-xs font-black text-slate-400">
+                                                {String(coin.market_cap_rank).padStart(2, '0')}
+                                            </span>
+                                        </td>
+                                        <td className="p-6">
+                                            <div className="flex items-center gap-4">
+                                                <div className="relative">
+                                                    <div className="absolute inset-0 bg-blue-500/20 blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+                                                    <img src={coin.image} alt={coin.name} className="w-8 h-8 relative z-10" />
+                                                </div>
+                                                <div className="flex flex-col">
+                                                    <span className="font-black text-slate-900 dark:text-white tracking-tight leading-none mb-1 group-hover:text-blue-600 transition-colors">
+                                                        {coin.name}
+                                                    </span>
+                                                    <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded w-fit">
+                                                        {coin.symbol}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td className="p-6">
+                                            <div className="flex flex-col">
+                                                <span className="font-mono font-black text-lg text-slate-800 dark:text-slate-100 tracking-tighter">
+                                                    ${coin.current_price.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 6 })}
+                                                </span>
+                                                <span className="text-[9px] font-bold text-slate-400 uppercase italic">USD Currency</span>
+                                            </div>
+                                        </td>
+                                        <td className="p-6 text-right">
+                                            <div className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl font-black text-xs transition-all ${isPositive
+                                                    ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                                                    : 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400'
+                                                }`}>
+                                                {isPositive ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+                                                {Math.abs(coin.price_change_percentage_24h).toFixed(2)}%
+                                            </div>
+                                        </td>
+                                    </tr>
+                                );
+                            })}
+                        </tbody>
+                    </table>
+                </div>
 
                 {filteredCoins.length === 0 && (
-                    <div className="p-20 text-center text-slate-400 font-medium">
-                        Nenhuma moeda encontrada para "{search}"
+                    <div className="p-32 text-center flex flex-col items-center justify-center gap-4">
+                        <div className="bg-slate-100 dark:bg-slate-800 p-4 rounded-full text-slate-300 dark:text-slate-600">
+                            <Minus size={32} />
+                        </div>
+                        <p className="text-slate-400 font-black uppercase tracking-[0.2em] text-[10px]">
+                            Nenhum ativo encontrado para "{search}"
+                        </p>
                     </div>
                 )}
             </div>
