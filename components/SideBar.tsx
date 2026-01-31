@@ -11,12 +11,12 @@ export default async function Sidebar() {
             {/* Logo */}
             <div className="mb-10 flex items-center justify-between">
                 <div>
-                    <Link href="/hub" className="font-black text-2xl tracking-tighter text-blue-600 dark:text-blue-400">
+                    <Link href="/lab/hub" className="font-black text-2xl tracking-tighter text-blue-600 dark:text-blue-400">
                         LAB.NEXT
                     </Link>
                     <div className="mt-1">
                         <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700">
-                            v2.0 Beta
+                            v2.0
                         </span>
                     </div>
                 </div>
