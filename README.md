@@ -1,95 +1,110 @@
-# 🚀 LAB.NEXT v2.0 Beta
+# 🌌 LAB.CONTROL — Web Operation System v2.0
 
-**LAB.NEXT** é um ecossistema pessoal de micro-aplicações (Dashboards) construído com as tecnologias mais modernas do ecossistema React. Ele funciona como um monossistema onde cada funcionalidade (Kanban, Finanças, CMS, Crypto) é tratada como um módulo independente dentro de uma arquitetura plugável.
+![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Framer Motion](https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge&logo=framer-motion&logoColor=white)
 
----
-
-## 🛠 Tech Stack
-
-* **Framework:** [Next.js 16 (App Router)](https://nextjs.org/)
-* **Linguagem:** TypeScript
-* **Estilização:** Tailwind CSS (Dark Mode nativo)
-* **Autenticação:** NextAuth.js (Auth.js v5 Beta)
-* **Banco de Dados:** Supabase (PostgreSQL)
-* **Renderização MDX:** `next-mdx-remote`
-* **Ícones:** Lucide React
-* **Animações:** Framer Motion
+> **LAB.CONTROL** é um ecossistema de micro-aplicações (Dashboards) de alta performance. Diferente de um portfólio comum, ele opera como um monorepo modular onde cada utilitário — de finanças a chats em tempo real — compartilha o mesmo núcleo de autenticação e design system.
 
 ---
 
-## 🏗 Arquitetura do Projeto
+## ⚡ Módulos de Operação (Core Modules)
 
-O projeto utiliza uma arquitetura personalizada para isolar a complexidade dos módulos da estrutura de rotas do Next.js:
+O sistema é composto por **9 células de processamento** independentes:
 
-* **`app/`**: Contém apenas o "esqueleto" do sistema. O roteador mestre em `app/lab/[[...slug]]` faz a ponte dinâmica para os projetos.
-* **`projects/`**: O coração do laboratório. Cada subpasta é um aplicativo independente com suas próprias `actions.ts`, componentes e lógica.
-* **`components/`**: Componentes globais e compartilhados (Sidebar, ThemeToggle, MobileNav).
-* **`content/`**: Repositório de arquivos `.mdx` consumidos pelo módulo de portfólio.
-
----
-
-## 📦 Módulos Integrados
-
-1. **📊 Finanças:** Controle de gastos e receitas com integração ao banco.
-2. **📋 Kanban:** Gestão de tarefas com colunas interativas e persistência.
-3. **💬 Chat Real-time:** Comunicação instantânea (WebSockets/Supabase Realtime).
-4. **🔗 Encurtador de Links:** Gerador de URLs curtas com painel administrativo.
-5. **📰 CMS Blog:** Sistema de gerenciamento de conteúdo para artigos.
-6. **🪙 Crypto Tracker:** Monitoramento de preços de criptomoedas em tempo real.
-7. **📂 Portfólio MDX:** Renderização dinâmica de documentação técnica via Markdown.
-8. **💖 Wishlist:** Lista de desejos e metas de consumo.
+| Módulo | Funcionalidade | Stack Específica |
+| :--- | :--- | :--- |
+| **📊 Finance** | Gestão de fluxo de caixa e balanço patrimonial. | Supabase RPC |
+| **💬 Chat** | Comunicação instantânea via WebSocket. | Supabase Realtime |
+| **📋 Kanban** | Orquestração de tarefas e pipeline de produtividade. | Framer Motion Drag |
+| **🔗 Shortener** | Encurtador de URLs com rastreamento. | API Routes |
+| **📰 CMS** | Engine de escrita técnica com suporte a Rich Text. | Tiptap Editor |
+| **📂 Portfolio** | Documentação dinâmica gerada via arquivos físicos. | MDX / Gray-matter |
+| **🪙 Crypto** | Monitoramento de ativos digitais em tempo real. | CoinGecko API |
+| **💖 Wishlist** | Curadoria de metas e objetivos de consumo. | Postgres Logic |
+| **📜 Quotes** | Gerador de insights via APIs externas. | Fetch/Cache |
 
 ---
 
-## 🚀 Como Executar
+## 🏗 Arquitetura Dinâmica (The Bridge)
 
-### 1. Clonar o repositório
+O diferencial técnico do LAB está na sua **Roteação Inteligente**. Utilizamos um padrão de `catch-all routes` para isolar a lógica de negócios da estrutura do framework:
 
-```bash
-git clone https://github.com/AdamGabriel1/lab-next.git
-cd lab-next
+### Estrutura de Diretórios
+- **`/app/lab/[[...slug]]`**: O Roteador Mestre. Ele intercepta a URL e injeta o projeto correspondente sem recarregar o layout base.
+- **`/projects`**: Onde reside a "inteligência". Cada pasta possui suas próprias `actions.ts` (Server Actions), componentes locais e tipagem, evitando poluição global.
+- **`/components/ui`**: Design System atômico baseado em princípios de **Glassmorphism** e **Neobrutalismo**.
 
-```
+---
 
-### 2. Configurar as variáveis de ambiente (`.env.local`)
+## 🛠 Tech Stack Detalhada
 
-Crie um arquivo na raiz e preencha com suas credenciais:
+- **Core:** Next.js 15 (App Router) & React 19.
+- **Data:** Supabase (PostgreSQL) com políticas de RLS (Row Level Security).
+- **Security:** Auth.js v5 (NextAuth) com proteção de rotas via Middleware.
+- **UI/UX:** Tailwind CSS com variáveis CSS para Dark Mode dinâmico.
+- **Animations:** Framer Motion para transições de página (AnimatePresence) e Staggered Grids.
+- **Content:** MDX para artigos que suportam componentes React vivos dentro do texto.
+
+---
+
+## 🚀 Deployment & Setup
+
+### Variáveis de Ambiente
+Renomeie o arquivo `.env.example` para `.env.local` e configure:
 
 ```env
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=sua_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sua_key
+# Supabase Configuration
+NEXT_PUBLIC_SUPABASE_URL="[https://your-project.supabase.co](https://your-project.supabase.co)"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your-anon-key"
 
-# NextAuth
-AUTH_SECRET=seu_segredo_gerado
+# Auth.js Configuration
+AUTH_SECRET="your-secret-here" # Gere com: npx auth secret
+AUTH_GITHUB_ID="your-id"
+AUTH_GITHUB_SECRET="your-secret"
+
 ```
 
-### 3. Instalar dependências e rodar
+### Inicialização
 
 ```bash
+# 1. Instalar dependências
 npm install
+
+# 2. Rodar em desenvolvimento
 npm run dev
 
 ```
 
 ---
 
-## 📱 Experiência Mobile
+## 📱 Design System: Mobile-First Strategy
 
-O LAB.NEXT foi projetado com uma abordagem **Mobile-First**.
+O LAB.CONTROL foi desenhado para ser uma **PWA (Progressive Web App)** nativa:
 
-* **Sidebar Adaptativa:** No desktop é fixa; no mobile, torna-se um menu lateral deslizante (Drawer).
-* **Snap Scroll:** O Kanban utiliza rolagem horizontal nativa em dispositivos móveis.
-* **Toque Otimizado:** Botões e links com área de clique expandida (mínimo 44px).
-
----
-
-## 🛠 Comandos Úteis
-
-* `npm run dev`: Inicia o servidor de desenvolvimento.
-* `npm run build`: Gera a build de produção otimizada.
-* `npm run lint`: Executa a verificação de erros no código.
+* **Haptic Feedback Visual:** Botões com escala ativa e feedback de carregamento (spinners/loaders).
+* **Sidebar Adaptive:** Sistema de gaveta (Drawer) para navegação intuitiva em uma mão.
+* **Layout Fluido:** Grids que se adaptam de 3 colunas (4K) para 1 coluna (Mobile) sem perda de contexto.
 
 ---
 
-**Desenvolvido com ☕ e TypeScript por Adam.**
+## 🛠 Comandos de Manutenção
+
+| Comando | Descrição |
+| --- | --- |
+| `npm run build` | Compila o projeto com otimização de imagens e rotas estáticas. |
+| `npm run lint` | Analisa o código em busca de problemas de tipagem ou padrões. |
+| `npm run type-check` | Executa o compilador TypeScript para validar a integridade do sistema. |
+
+---
+
+<p align="center">
+Desenvolvido com foco em performance e escalabilidade por <strong>Adam Gabriel</strong>.
+
+
+
+
+"Onde o código encontra o design de interface de alta precisão."
+</p>
