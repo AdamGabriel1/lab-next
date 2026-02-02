@@ -8,8 +8,6 @@
 
 > **LAB.CONTROL** é um ecossistema de micro-aplicações (Dashboards) de alta performance. Diferente de um portfólio comum, ele opera como um monorepo modular onde cada utilitário — de finanças a chats em tempo real — compartilha o mesmo núcleo de autenticação e design system.
 
-**✨ Melhorias Recentes:** Middleware de autenticação, sistema de notificações Toast, tipagem TypeScript completa, error handling robusto e muito mais! Veja [IMPROVEMENTS.md](./IMPROVEMENTS.md) para detalhes.
-
 ---
 
 ## ⚡ Módulos de Operação (Core Modules)

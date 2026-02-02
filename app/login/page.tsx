@@ -25,7 +25,7 @@ export default function LoginPage() {
             alert("Email ou senha incorretos!")
             setLoading(false)
         } else {
-            router.push("/lab/hub")
+            router.push("/") // Mudei para o Hub, ajuste se preferir /financas
             router.refresh()
         }
     }
